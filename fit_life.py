@@ -1,30 +1,72 @@
+import string
+
 # Шаг 1. Знакомство с пользователем (создаём дружелюбный интерфейс)
-print("Привет!,Давайте познакомимся!:)")
+print("Привет! Давайте познакомимся! :)")
+
 # Запрос имени и сохранение в переменную
-user_name = input("Как тебя зовут?:")
+user_name = input("Как тебя зовут?: ")
+
 # Запрос возраста и преобразование в число
-user_age = input("Сколько тебе лет?:")
+user_age = input("Сколько тебе лет?: ")
 user_age_int = int(user_age)
+
 # Вывод данных
-print(f"Приятно познакомиться,{user_name}!")
+print(f"Приятно познакомиться, {user_name}!")
+
 # Шаг 2. Сбор параметров и расчёты (добавляем полезную логику)
-print("Теперь давай рассчитаем ИМТ и норму воды!:)")
+print("Теперь давай рассчитаем ИМТ и норму воды! :)")
+
 # Запрос Веса и преобразование в Float
-user_weight = float(input("Введите ваш вес в килограммах:"))
-# Запрос роста и преобразование в Float
-user_height = float(input("Введите ваш рост в метрах(например,2.1):"))
-# Рассчет ИМТ вес(кг)/(рост(м)**2)
+user_weight = float(input("Введите ваш вес в килограммах: "))
+
+# Запрос роста и преобразование: цифры + точка, максимум одна точка
+while True:
+    height_input = input(
+        "Введите ваш рост в метрах (например, 1.75): "
+    ).strip()
+    allowed_chars = set(string.digits + '.')
+    if (
+        len(height_input) > 0
+        and all(ch in allowed_chars for ch in height_input)
+        and height_input.count('.') <= 1
+    ):
+        try:
+            user_height = float(height_input)
+            if 0 < user_height <= 3:
+                break
+            else:
+                print(
+                    "Рост должен быть больше 0 и не больше 3 метров. "
+                    "Попробуйте ещё раз."
+                )
+        except ValueError:
+            print("Ошибка: не удалось распознать число. Попробуйте ещё раз.")
+    else:
+        print("Ошибка: введите корректное число (например, 1.75).")
+
+# Расчёт ИМТ: вес (кг) / (рост (м) ** 2)
 bmi = user_weight / (user_height ** 2)
+
 # Округляем ИМТ
 bmi_rounded = round(bmi, 1)
-# Расчет нормы воды в мл.
-water_ml = user_weight * 30
+
+# Константа: норма воды в мл на 1 кг веса
+WATER_PER_KG_ML = 30
+
+# Расчёт нормы воды в мл
+water_ml = user_weight * WATER_PER_KG_ML
+
 # Перевод в литры
 water_l = water_ml / 1000
+
 # Округляем литры
 water_l_rounded = round(water_l, 2)
+
 # Вывод
-print(f"Отчет для пользователя: {user_name}, {user_age_int}лет")
-print(f"Твой Индекс Массы Тела: {bmi_rounded}")
-print(f"Рекомендуемая норма воды: {water_l_rounded} л")
-print("Расчет окончен. Будьте здоровы!")
+print(
+    f"Отчёт для пользователя: {user_name}, {user_age_int} лет",
+    f"Твой Индекс Массы Тела: {bmi_rounded}",
+    f"Рекомендуемая норма воды: {water_l_rounded} л",
+    "Расчёт окончен. Будьте здоровы!",
+    sep="\n",
+)
