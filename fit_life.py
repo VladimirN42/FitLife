@@ -7,8 +7,16 @@ print("Привет! Давайте познакомимся! :)")
 user_name = input("Как тебя зовут?: ")
 
 # Запрос возраста и преобразование в число
-user_age = input("Сколько тебе лет?: ")
-user_age_int = int(user_age)
+while True:
+    user_age = input("Сколько тебе лет?: ")
+    try:
+        user_age_int = int(user_age)
+        if 0 < user_age_int <= 120:
+            break
+        else:
+            print("Пожалуйста, введите возраст от 1 до 120.")
+    except ValueError:
+        print("Ошибка: введите корректное целое число.")
 
 # Вывод данных
 print(f"Приятно познакомиться, {user_name}!")
@@ -17,7 +25,27 @@ print(f"Приятно познакомиться, {user_name}!")
 print("Теперь давай рассчитаем ИМТ и норму воды! :)")
 
 # Запрос Веса и преобразование в Float
-user_weight = float(input("Введите ваш вес в килограммах: "))
+while True:
+    weight_input = input("Введите ваш вес в килограммах: ")
+    allowed_chars = set(string.digits + '.')
+    if (
+        len(weight_input) > 0
+        and all(ch in allowed_chars for ch in weight_input)
+        and weight_input.count('.') <= 1
+    ):
+        try:
+            user_weight = float(weight_input)
+            if 0 < user_weight <= 300:
+                break
+            else:
+                print(
+                    "Вес должен быть больше 0 и не больше 300 кг. "
+                    "Попробуйте ещё раз."
+                )
+        except ValueError:
+            print("Ошибка: не удалось распознать число. Попробуйте ещё раз.")
+    else:
+        print("Ошибка: введите корректное число (например, 70.5).")
 
 # Запрос роста и преобразование: цифры + точка, максимум одна точка
 while True:
